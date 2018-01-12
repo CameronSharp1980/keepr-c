@@ -11,11 +11,11 @@ using System.Linq;
 namespace keepr_c.Controllers
 {
     [Route("[controller]")]
-    public class AccountController : Controller
+    public class AccountsController : Controller
     {
         private readonly UserRepository _db;
 
-        public AccountController(UserRepository repo)
+        public AccountsController(UserRepository repo)
         {
             _db = repo;
         }

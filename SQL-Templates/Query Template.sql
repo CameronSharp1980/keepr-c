@@ -67,13 +67,13 @@
 -- INNER JOIN keeps k ON k.id = vk.keepId 
 -- WHERE (vaultId = 2)
 
---------------------------------------
+
 
 -- ALTER TABLE keeps ADD creatorid int
 
 -- ALTER TABLE keeps DROP COLUMN creatorid
 
---------------------------------------
+
 
 -- INSERT INTO users (Username, Email, Password, AvatarUrl, FirstName, LastName)
 -- VALUES ("cameron", "c@c.com", "test", "//placehold.it/200x200", "cameron", "cameron");
@@ -94,6 +94,6 @@
 -- USE THIS LINE FOR GET KEEPS BY VAULTID
 -- SELECT * FROM vaultkeeps vk
 -- INNER JOIN keeps k ON k.id = vk.keepId 
--- WHERE (vaultId = 1)
+-- WHERE (vaultId = 2)
 
 -- DELETE FROM users WHERE id = 4

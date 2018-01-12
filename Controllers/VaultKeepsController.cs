@@ -10,26 +10,32 @@ using Microsoft.AspNetCore.Authorization;
 namespace keepr_c.Controllers
 {
     [Route("api/[controller]")]
-    public class VaultKeepController : Controller
+    public class VaultKeepsController : Controller
     {
         private readonly VaultKeepRepository db;
-        public VaultKeepController(VaultKeepRepository vaultKeepRepo)
+        public VaultKeepsController(VaultKeepRepository vaultKeepRepo)
         {
             db = vaultKeepRepo;
         }
 
-        // GET api/values
-        [HttpGet]
-        public IEnumerable<VaultKeep> Get()
-        {
-            return db.GetAll();
-        }
+        // GET api/values        
+        // [HttpGet]
+        // public IEnumerable<VaultKeep> Get()
+        // {
+        //     return db.GetAll();
+        // }
 
         // GET api/values/5
-        [HttpGet("{id}")]
-        public VaultKeep Get(int id)
+        // [HttpGet("{id}")]
+        // public VaultKeep Get(int id)
+        // {
+        //     return db.GetById(id);
+        // }
+
+        [HttpGet("{vaultid}")]
+        public IEnumerable<VaultKeepReturnModel> GetKeeps(int vaultid)
         {
-            return db.GetById(id);
+            return db.GetKeeps(vaultid);
         }
 
         // POST api/values
@@ -45,16 +51,16 @@ namespace keepr_c.Controllers
         }
 
         // PUT api/values/5
-        [Authorize]
-        [HttpPut("{id}")]
-        public VaultKeep Put(int id, [FromBody]VaultKeep vaultKeep)
-        {
-            if (ModelState.IsValid)
-            {
-                return db.GetOneByIdAndUpdate(id, vaultKeep);
-            }
-            return null;
-        }
+        // [Authorize]
+        // [HttpPut("{id}")]
+        // public VaultKeep Put(int id, [FromBody]VaultKeep vaultKeep)
+        // {
+        //     if (ModelState.IsValid)
+        //     {
+        //         return db.GetOneByIdAndUpdate(id, vaultKeep);
+        //     }
+        //     return null;
+        // }
 
         // DELETE api/values/5
         [Authorize]

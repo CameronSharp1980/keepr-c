@@ -18,15 +18,29 @@ namespace keepr_c.Repositories
         }
 
         // Find One Find Many add update delete
-        public IEnumerable<VaultKeep> GetAll()
+        // public IEnumerable<VaultKeep> GetAll()
+        // {
+        //     return _db.Query<VaultKeep>("SELECT * FROM vaultkeeps");
+        // }
+
+        // public VaultKeep GetById(int id)
+        // {
+        //     return _db.QueryFirstOrDefault<VaultKeep>($"SELECT * FROM vaultkeeps WHERE id = {id}", id);
+        // }
+
+        public IEnumerable<VaultKeepReturnModel> GetKeeps(int vaultId)
         {
-            return _db.Query<VaultKeep>("SELECT * FROM vaultkeeps");
+            System.Console.WriteLine(vaultId);
+            return _db.Query<VaultKeepReturnModel>($@"
+                        SELECT * FROM vaultkeeps vk
+                        INNER JOIN keeps k ON k.id = vk.keepId
+                        WHERE (vaultId = {vaultId})
+                        ");
         }
 
-        public VaultKeep GetById(int id)
-        {
-            return _db.QueryFirstOrDefault<VaultKeep>($"SELECT * FROM vaultkeeps WHERE id = {id}", id);
-        }
+        //         SELECT * FROM vaultkeeps vk
+        // INNER JOIN keeps k ON k.id = vk.keepId 
+        // WHERE (vaultId = 2)
 
         public VaultKeep Add(VaultKeep vaultKeep)
         {
@@ -45,16 +59,16 @@ namespace keepr_c.Repositories
             return vaultKeep;
         }
 
-        public VaultKeep GetOneByIdAndUpdate(int id, VaultKeep vaultKeep)
-        {
-            //Queries for the first VaultKeep that matches the id passed in. If it doesn't find it, it defaults to handle the error gracefully without crashing. If it finds the id, it updates the fields with the data you are sending.
-            return _db.QueryFirstOrDefault<VaultKeep>($@"
-                UPDATE vaultkeeps SET  
-                    VaultId = @VaultId,
-                    KeepId = @KeepId
-                WHERE Id = {id};
-                SELECT * FROM vaultkeeps WHERE id = {id};", vaultKeep);
-        }
+        // public VaultKeep GetOneByIdAndUpdate(int id, VaultKeep vaultKeep)
+        // {
+        //     //Queries for the first VaultKeep that matches the id passed in. If it doesn't find it, it defaults to handle the error gracefully without crashing. If it finds the id, it updates the fields with the data you are sending.
+        //     return _db.QueryFirstOrDefault<VaultKeep>($@"
+        //         UPDATE vaultkeeps SET  
+        //             VaultId = @VaultId,
+        //             KeepId = @KeepId
+        //         WHERE Id = {id};
+        //         SELECT * FROM vaultkeeps WHERE id = {id};", vaultKeep);
+        // }
 
         public string FindByIdAndRemove(int id)
         {

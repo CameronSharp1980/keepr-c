@@ -10,10 +10,10 @@ using Microsoft.AspNetCore.Authorization;
 namespace keepr_c.Controllers
 {
     [Route("api/[controller]")]
-    public class KeepController : Controller
+    public class KeepsController : Controller
     {
         private readonly KeepRepository db;
-        public KeepController(KeepRepository keepRepo)
+        public KeepsController(KeepRepository keepRepo)
         {
             db = keepRepo;
         }
