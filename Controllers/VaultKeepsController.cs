@@ -33,9 +33,9 @@ namespace keepr_c.Controllers
         // }
 
         [HttpGet("{vaultid}")]
-        public IEnumerable<VaultKeepReturnModel> GetKeeps(int vaultid)
+        public IEnumerable<VaultKeepReturnModel> GetKeepsInVault(int vaultid)
         {
-            return db.GetKeeps(vaultid);
+            return db.GetKeepsInVault(vaultid);
         }
 
         // POST api/values
@@ -64,10 +64,10 @@ namespace keepr_c.Controllers
 
         // DELETE api/values/5
         [Authorize]
-        [HttpDelete("{id}")]
-        public string Delete(int id)
+        [HttpDelete("{vaultKeepId}")]
+        public string Delete(int vaultKeepId)
         {
-            return db.FindByIdAndRemove(id);
+            return db.FindKeepAndRemoveFromVault(vaultKeepId);
         }
     }
 }

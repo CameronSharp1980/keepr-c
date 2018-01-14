@@ -28,19 +28,15 @@ namespace keepr_c.Repositories
         //     return _db.QueryFirstOrDefault<VaultKeep>($"SELECT * FROM vaultkeeps WHERE id = {id}", id);
         // }
 
-        public IEnumerable<VaultKeepReturnModel> GetKeeps(int vaultId)
+        public IEnumerable<VaultKeepReturnModel> GetKeepsInVault(int vaultId)
         {
-            System.Console.WriteLine(vaultId);
+            // System.Console.WriteLine(vaultId);
             return _db.Query<VaultKeepReturnModel>($@"
                         SELECT * FROM vaultkeeps vk
                         INNER JOIN keeps k ON k.id = vk.keepId
                         WHERE (vaultId = {vaultId})
                         ");
         }
-
-        //         SELECT * FROM vaultkeeps vk
-        // INNER JOIN keeps k ON k.id = vk.keepId 
-        // WHERE (vaultId = 2)
 
         public VaultKeep Add(VaultKeep vaultKeep)
         {
@@ -70,11 +66,11 @@ namespace keepr_c.Repositories
         //         SELECT * FROM vaultkeeps WHERE id = {id};", vaultKeep);
         // }
 
-        public string FindByIdAndRemove(int id)
+        public string FindKeepAndRemoveFromVault(int vaultKeepId)
         {
             var success = _db.Execute($@"
-                DELETE FROM vaultkeeps WHERE Id = {id}
-            ", id);
+                DELETE FROM vaultkeeps WHERE id = {vaultKeepId}
+            ", vaultKeepId);
             return success > 0 ? "success" : "umm that didnt work";
         }
     }
