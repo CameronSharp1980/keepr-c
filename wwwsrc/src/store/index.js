@@ -62,7 +62,7 @@ var store = new Vuex.Store({
         //#region UserAuth
 
         submitRegister({ commit, dispatch }, newUser) {
-            account.post('register', newUser)
+            auth.post('register', newUser)
                 .then(res => {
                     if (res.data) {
                         commit('setCurrentUser', res.data)
@@ -78,7 +78,7 @@ var store = new Vuex.Store({
                 })
         },
         submitLogin({ commit, dispatch }, user) {
-            account.post('login', user)
+            auth.post('login', user)
                 .then(res => {
                     if (res.data) {
                         commit('setCurrentUser', res.data)
@@ -94,7 +94,7 @@ var store = new Vuex.Store({
                 })
         },
         logout({ commit, dispatch }) {
-            account.delete('logout')
+            auth.delete('logout')
                 .then(res => {
                     commit('setCurrentUser', {})
                     // router.push({ name: "Login" })
@@ -104,7 +104,7 @@ var store = new Vuex.Store({
                 })
         },
         authenticate({ commit, dispatch }) {
-            account('authenticate')
+            auth('authenticate')
                 .then(res => {
                     // console.log("Response @ auth: ", res.data)
                     if (res.data) {

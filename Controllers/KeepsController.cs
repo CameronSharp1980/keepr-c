@@ -24,8 +24,8 @@ namespace keepr_c.Controllers
         {
             return db.GetAll();
         }
-
-        [HttpGet]
+        [Authorize]
+        [HttpGet("{userId}")]
         public IEnumerable<Keep> GetUserKeeps(int userId)
         {
             return db.GetUserKeeps(userId);
