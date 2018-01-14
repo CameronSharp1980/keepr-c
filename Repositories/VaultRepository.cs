@@ -18,15 +18,20 @@ namespace keepr_c.Repositories
         }
 
         // Find One Find Many add update delete
-        public IEnumerable<Vault> GetAll()
+        // public IEnumerable<Vault> GetAll()
+        // {
+        //     return _db.Query<Vault>("SELECT * FROM vaults");
+        // }
+
+        public IEnumerable<Vault> GetUserVaults(int userId)
         {
-            return _db.Query<Vault>("SELECT * FROM vaults");
+            return _db.Query<Vault>($"SELECT * FROM vaults WHERE userid = {userId}", userId);
         }
 
-        public Vault GetById(int id)
-        {
-            return _db.QueryFirstOrDefault<Vault>($"SELECT * FROM vaults WHERE id = {id}", id);
-        }
+        // public Vault GetById(int id)
+        // {
+        //     return _db.QueryFirstOrDefault<Vault>($"SELECT * FROM vaults WHERE id = {id}", id);
+        // }
 
         public Vault Add(Vault vault)
         {
@@ -56,11 +61,11 @@ namespace keepr_c.Repositories
                 SELECT * FROM vaults WHERE id = {id};", vault);
         }
 
-        public string FindByIdAndRemove(int id)
+        public string FindByIdAndRemove(int vaultId)
         {
             var success = _db.Execute($@"
-                DELETE FROM vaults WHERE Id = {id}
-            ", id);
+                DELETE FROM vaults WHERE Id = {vaultId}
+            ", vaultId);
             return success > 0 ? "success" : "umm that didnt work";
         }
     }

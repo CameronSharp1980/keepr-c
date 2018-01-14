@@ -25,12 +25,18 @@ namespace keepr_c.Controllers
             return db.GetAll();
         }
 
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public Keep Get(int id)
+        [HttpGet]
+        public IEnumerable<Keep> GetUserKeeps(int userId)
         {
-            return db.GetById(id);
+            return db.GetUserKeeps(userId);
         }
+
+        // GET api/values/5
+        // [HttpGet("{id}")]
+        // public Keep Get(int id)
+        // {
+        //     return db.GetById(id);
+        // }
 
         // POST api/values
         [Authorize]
@@ -58,10 +64,10 @@ namespace keepr_c.Controllers
 
         // DELETE api/values/5
         [Authorize]
-        [HttpDelete("{id}")]
-        public string Delete(int id)
+        [HttpDelete("{keepId}")]
+        public string Delete(int keepId)
         {
-            return db.FindByIdAndRemove(id);
+            return db.FindByIdAndRemove(keepId);
         }
     }
 }

@@ -19,18 +19,24 @@ namespace keepr_c.Controllers
         }
 
         // GET api/values
-        [HttpGet]
-        public IEnumerable<Vault> Get()
+        // [HttpGet]
+        // public IEnumerable<Vault> Get()
+        // {
+        //     return db.GetAll();
+        // }
+
+        [HttpGet("{userId}")]
+        public IEnumerable<Vault> GetUserVaults(int userId)
         {
-            return db.GetAll();
+            return db.GetUserVaults(userId);
         }
 
         // GET api/values/5
-        [HttpGet("{id}")]
-        public Vault Get(int id)
-        {
-            return db.GetById(id);
-        }
+        // [HttpGet("{id}")]
+        // public Vault Get(int id)
+        // {
+        //     return db.GetById(id);
+        // }
 
         // POST api/values
         [Authorize]
@@ -58,10 +64,10 @@ namespace keepr_c.Controllers
 
         // DELETE api/values/5
         [Authorize]
-        [HttpDelete("{id}")]
-        public string Delete(int id)
+        [HttpDelete("{vaultId}")]
+        public string Delete(int vaultId)
         {
-            return db.FindByIdAndRemove(id);
+            return db.FindByIdAndRemove(vaultId);
         }
     }
 }

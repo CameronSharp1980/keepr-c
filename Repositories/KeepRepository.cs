@@ -23,10 +23,15 @@ namespace keepr_c.Repositories
             return _db.Query<Keep>("SELECT * FROM keeps");
         }
 
-        public Keep GetById(int id)
+        public IEnumerable<Keep> GetUserKeeps(int userId)
         {
-            return _db.QueryFirstOrDefault<Keep>($"SELECT * FROM keeps WHERE id = {id}", id);
+            return _db.Query<Keep>($"SELECT * FROM keeps WHERE userid = {userId}", userId);
         }
+
+        // public Keep GetById(int id)
+        // {
+        //     return _db.QueryFirstOrDefault<Keep>($"SELECT * FROM keeps WHERE id = {id}", id);
+        // }
 
         public Keep Add(Keep keep)
         {
@@ -60,11 +65,11 @@ namespace keepr_c.Repositories
                 SELECT * FROM keeps WHERE id = {id};", keep);
         }
 
-        public string FindByIdAndRemove(int id)
+        public string FindByIdAndRemove(int keepId)
         {
             var success = _db.Execute($@"
-                DELETE FROM keeps WHERE Id = {id}
-            ", id);
+                DELETE FROM keeps WHERE Id = {keepId}
+            ", keepId);
             return success > 0 ? "success" : "umm that didnt work";
         }
     }
