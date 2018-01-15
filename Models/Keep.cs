@@ -15,6 +15,7 @@ namespace keepr_c.Models
         public int Views { get; set; }
         public int Keeps { get; set; }
         public int Shares { get; set; }
+        public bool Public { get; set; }
 
 
     }

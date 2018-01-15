@@ -31,6 +31,7 @@
 --     views int,
 --     keeps int,
 --     shares int,
+--     public bool,
 --     INDEX userId (userId),
 --     FOREIGN KEY (userId)
 --         REFERENCES users(id)
