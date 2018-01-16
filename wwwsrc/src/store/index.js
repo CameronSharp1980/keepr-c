@@ -225,7 +225,7 @@ var store = new Vuex.Store({
         getKeeps({ commit, dispatch }) {
             api(`keeps`)
                 .then(res => {
-                    console.log(res)
+                    // console.log(res)
                     commit('setKeeps', res.data)
                 })
                 .catch(err => {
@@ -266,7 +266,7 @@ var store = new Vuex.Store({
         },
         updateKeep({ commit, dispatch }, payload) {
             if (payload.currentUser.id == payload.keep.userId) {
-                api.put(`keeps/${payload.keep.id}`)
+                api.put(`keeps/${payload.keep.id}`, payload.keep)
                     .then(res => {
                         if (res) {
                             commit('setMessage', `Keep: ${payload.keep.name} updated successfully`)
@@ -289,6 +289,29 @@ var store = new Vuex.Store({
             } else {
                 commit('handleError', { message: 'You are not the owner of that keep, and therefore not authorized to update it.' })
             }
+        },
+        incrementViews({ commit, dispatch }, payload) {
+            payload.keep.views++
+            api.put(`keeps/${payload.keep.id}/views`, payload.keep)
+                .then(res => {
+                    if (res) {
+                        commit('setMessage', `Keep: ${payload.keep.name} updated successfully`)
+                        return res
+                    } else {
+                        commit('setMessage', `Keep: ${payload.keep.name} was not updated successfully`)
+                        return res
+                    }
+                })
+                .catch(err => {
+                    commit('handleError', err)
+                })
+                .then(res => {
+                    dispatch('getKeeps')
+                    dispatch('getUserKeeps', payload.currentUser.id)
+                })
+                .catch(err => {
+                    commit('handleError', err)
+                })
         },
         removeKeep({ commit, dispatch }, payload) {
             if (payload.currentUser.id == payload.keep.userId) {

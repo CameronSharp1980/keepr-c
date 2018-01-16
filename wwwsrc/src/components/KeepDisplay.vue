@@ -2,7 +2,7 @@
     <div class="keep-display">
         <div class="row">
             <div class="keeps-div col-sm-3" v-for="keep in keeps" v-if="keep.public">
-                <div class="single-keep-div text-center thumbnail">
+                <!-- <div class="single-keep-div text-center thumbnail">
                     <img class="full-width keep-img" :src="keep.imageUrl" alt="Image Url">
                     <div class="keep-caption-div">
                         <span>
@@ -18,13 +18,15 @@
                     <div class="keep-caption-div keep-title">
                         {{keep.name}}
                     </div>
-                </div>
+                </div> -->
+                <Keep :keepProp="keep"></Keep>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+    import Keep from './Keep'
     export default {
         name: 'KeepDisplay',
         data() {
@@ -44,7 +46,7 @@
             }
         },
         components: {
-
+            Keep
         }
     }
 </script>
