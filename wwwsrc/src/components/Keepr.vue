@@ -1,16 +1,10 @@
 <template>
-  <div class="keepr container">
-    <LogoBar></LogoBar>
-    <div class="temp-div">
-      <p>Welcome {{currentUser.username}}</p>
-      <p>Current User: {{currentUser}}</p>
-    </div>
+  <div class="keepr">
     <KeepDisplay></KeepDisplay>
   </div>
 </template>
 
 <script>
-  import LogoBar from './LogoBar'
   import KeepDisplay from './KeepDisplay'
   export default {
     name: 'Keepr',
@@ -31,7 +25,6 @@
       }
     },
     components: {
-      LogoBar,
       KeepDisplay
     }
   }

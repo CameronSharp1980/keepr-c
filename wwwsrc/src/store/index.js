@@ -82,6 +82,8 @@ var store = new Vuex.Store({
                 .then(res => {
                     if (res.data) {
                         commit('setCurrentUser', res.data)
+                        dispatch('getUserVaults', res.data.id)
+                        dispatch('getUserKeeps', res.data.id)
                         // router.push({ name: "Home" })
                     } else {
                         // router.push({ name: "Login" })
@@ -97,7 +99,9 @@ var store = new Vuex.Store({
             auth.delete('logout')
                 .then(res => {
                     commit('setCurrentUser', {})
-                    // router.push({ name: "Login" })
+                    commit('setUserVaults', {})
+                    commit('setUserKeeps', {})
+                    router.push({ name: "Keepr" })
                 })
                 .catch(err => {
                     commit('handleError', err)
@@ -109,11 +113,13 @@ var store = new Vuex.Store({
                     // console.log("Response @ auth: ", res.data)
                     if (res.data) {
                         commit('setCurrentUser', res.data)
+                        dispatch('getUserVaults', res.data.id)
+                        dispatch('getUserKeeps', res.data.id)
                         // router.push({ name: "Home" })
                     } else {
-                        // router.push({ name: "Login" })
                         //Line below might need to be res or err (Check after frontend auth ready)
                         commit('handleError', { message: 'Authentication failed!' })
+                        router.push({ name: "Keepr" })
                     }
                 })
                 .catch(() => {
@@ -131,7 +137,7 @@ var store = new Vuex.Store({
         getUserVaults({ commit, dispatch }, currentUserId) {
             api(`vaults/${currentUserId}`)
                 .then(res => {
-                    console.log(res)
+                    // console.log(res)
                     commit('setUserVaults', res.data)
                 })
                 .catch(err => {
@@ -139,7 +145,6 @@ var store = new Vuex.Store({
                 })
         },
         submitVault({ commit, dispatch }, payload) {
-            payload.vault.userId = payload.currentUser.id
             console.log(payload.vault)
             api.post('vaults', payload.vault)
                 .then(res => {
@@ -228,7 +233,7 @@ var store = new Vuex.Store({
         getUserKeeps({ commit, dispatch }, currentUserId) {
             api(`keeps/${currentUserId}`)
                 .then(res => {
-                    console.log(res)
+                    // console.log(res)
                     commit('setUserKeeps', res.data)
                 })
                 .catch(err => {
@@ -236,9 +241,8 @@ var store = new Vuex.Store({
                 })
         },
         submitKeep({ commit, dispatch }, payload) {
-            payload.keep.userId = payload.currentUser.id
             console.log(payload.keep)
-            api.post('keeps', payload.vault)
+            api.post('keeps', payload.keep)
                 .then(res => {
                     if (res) {
                         //res = whole posting or res.data = whole posting?
