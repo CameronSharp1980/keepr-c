@@ -3,7 +3,7 @@
         <div class="single-keep-div text-center thumbnail">
             <div class="image-div">
                 <img class="full-width keep-img" :src="keepProp.imageUrl" alt="Image Url">
-                <span data-toggle="modal" :data-target="'#keep-modal' + keepProp.id" class="image-button keep-button fa fa-xing"></span>
+                <span @click="setCurrentLocalKeep(keepProp)" data-toggle="modal" :data-target="'#keep-modal' + keepProp.id" class="image-button keep-button fa fa-xing"></span>
                 <span @click="incrementViews" data-toggle="modal" :data-target="'#viewModal' + keepProp.id" class="image-button view-button fa fa-vimeo"></span>
             </div>
             <div class="keep-caption-div">
@@ -25,38 +25,60 @@
 
         <!-- KEEP (Add to vualt) MODAL -->
         <div class="modal fade" :id="'keep-modal' + keepProp.id" tabindex="-1" role="dialog" aria-labelledby="keepModalLabel">
-            <div class="modal-dialog" role="document">
+            <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <h4 class="modal-title">{{keepProp.name}}</h4>
+                        <h4 class="modal-title">Add to Vault</h4>
                     </div>
                     <div class="modal-body max-height-80vh">
                         <div class="row">
-                            <div class="col-sm-12">
+                            <div class="col-sm-6">
+                                <h4>Available Vaults:</h4>
                                 <div class="row">
-                                    <div class="col-sm-3 height-100 text-center manager-thumb-div">
-                                        <img class="manager-thumb" :src="keepProp.imageUrl" :alt="keepProp.name">
-                                    </div>
-                                    <div class="col-sm-7 height-100 text-center manager-title-div">
-                                        <span class="manager-title">{{keepProp.name}}</span>
-                                    </div>
-                                    <div class="col-sm-2 height-100 text-center manager-controls-div">
-                                        <i @click="" class="fa fa-ban manager-controls"></i>
-                                        <!-- <i class="fa fa-arrow-circle-o-up manager-controls"></i> -->
-                                    </div>
+                                    <div class="col-sm-12" v-for="vault in userVaults">
+                                        <div class="row">
+                                            <div @click="setCurrentVaultAndKeeps(vault)" class="col-sm-12 height-100 text-center manager-thumb-div">
+                                                <span class="manager-title">{{vault.name}}</span>
+                                            </div>
+                                            <!-- <div class="col-sm-7 height-100 text-center manager-title-div">
+                                                        <span class="manager-title">{{vault.description}}</span>
+                                                    </div> -->
+                                            <!-- <div class="col-sm-2 height-100 text-center manager-controls-div">
+                                                <i @click="" class="fa fa-ban manager-controls"></i> -->
+                                            <!-- <i class="fa fa-arrow-circle-o-up manager-controls"></i> -->
+                                            <!-- </div> -->
 
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-
+                            <div class="col-sm-6">
+                                <h4>Keeps in Selected Vault:</h4>
+                                <div class="row">
+                                    <div class="col-sm-12" v-for="(keep, i) in currentVaultKeeps" v-if="currentVaultKeeps.length > 0">
+                                        <div class="row">
+                                            <div class="col-sm-2 vault-keep-entry">
+                                                <img class=" vault-keep-entry-thumb" :src="keep.imageUrl" :alt="keep.name">
+                                            </div>
+                                            <div class="vault-keep-entry grey col-sm-10" v-if="i % 2 == 0">
+                                                <span>{{keep.name}}</span>
+                                            </div>
+                                            <div class="vault-keep-entry col-sm-10" v-else>
+                                                <span>{{keep.name}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <!-- <div class="modal-footer">
+                    <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                    </div> -->
+                        <span @click="submitKeepToVault" type="button" class="btn btn-primary">Keep!</span>
+                    </div>
                 </div>
                 <!-- /.modal-content -->
             </div>
@@ -113,7 +135,7 @@
         props: ["keepProp"],
         data() {
             return {
-
+                currentLocalKeep: null
             }
         },
         mounted() {
@@ -122,6 +144,24 @@
         methods: {
             incrementViews() {
                 this.$store.dispatch('incrementViews', { keep: this.keepProp })
+            },
+            setCurrentVaultAndKeeps(vault) {
+                this.$store.dispatch('setCurrentVault', vault)
+                this.$store.dispatch('getKeepsInVault', vault.id)
+            },
+            submitKeepToVault() {
+                debugger
+                if (this.currentLocalKeep != null) {
+                    var vaultKeep = {
+                        vaultId: this.currentVault.id,
+                        keepId: this.currentLocalKeep.id,
+                        userId: this.currentUser.id
+                    }
+                    this.$store.dispatch('submitKeepToVault', { currentUser: this.currentUser, vaultKeep: vaultKeep, vaultId: this.currentVault.id })
+                }
+            },
+            setCurrentLocalKeep(keep) {
+                this.currentLocalKeep = keep
             }
         },
         computed: {
@@ -130,6 +170,15 @@
             // }
             currentUser() {
                 return this.$store.state.currentUser
+            },
+            userVaults() {
+                return this.$store.state.userVaults
+            },
+            currentVaultKeeps() {
+                return this.$store.state.currentVaultKeeps
+            },
+            currentVault() {
+                return this.$store.state.currentVault
             }
         },
         components: {
@@ -231,5 +280,30 @@
 
     .view-modal-title {
         font-weight: bold;
+    }
+
+    .manager-thumb-div {
+        background-color: #fd0090;
+    }
+
+    .manager-title {
+        font-size: 2em;
+        line-height: 100px;
+        color: #ffffff;
+    }
+
+    .vault-keep-entry {
+        font-size: 1.25em;
+        height: 50px;
+        line-height: 50px;
+    }
+
+    .vault-keep-entry-thumb {
+        height: 100%;
+    }
+
+    .grey {
+        background-color: #F5F5F4;
+        color: #000000;
     }
 </style>
