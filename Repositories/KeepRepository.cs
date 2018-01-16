@@ -76,6 +76,15 @@ namespace keepr_c.Repositories
                 SELECT * FROM keeps WHERE id = {keep.Id};", keep);
         }
 
+        public Keep IncrementKeeps(Keep keep)
+        {
+            return _db.QueryFirstOrDefault<Keep>($@"
+                UPDATE keeps SET  
+                    Keeps = @Keeps
+                WHERE Id = {keep.Id};
+                SELECT * FROM keeps WHERE id = {keep.Id};", keep);
+        }
+
         public string FindByIdAndRemove(int keepId)
         {
             var success = _db.Execute($@"

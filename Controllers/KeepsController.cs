@@ -73,6 +73,16 @@ namespace keepr_c.Controllers
         }
         // api.put(`keeps/${payload.keep.id}/views/${payload.keep.views}`)
 
+        [HttpPut("{keepId}/keeps")]
+        public Keep IncrementKeeps([FromBody] Keep keep)
+        {
+            if (ModelState.IsValid)
+            {
+                return db.IncrementKeeps(keep);
+            }
+            return null;
+        }
+
         // DELETE api/values/5
         [Authorize]
         [HttpDelete("{keepId}")]

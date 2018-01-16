@@ -3,7 +3,7 @@
         <div class="single-keep-div text-center thumbnail">
             <div class="image-div">
                 <img class="full-width keep-img" :src="keepProp.imageUrl" alt="Image Url">
-                <span @click="setCurrentLocalKeep(keepProp)" data-toggle="modal" :data-target="'#keep-modal' + keepProp.id" class="image-button keep-button fa fa-xing"></span>
+                <span data-toggle="modal" :data-target="'#keep-modal' + keepProp.id" class="image-button keep-button fa fa-xing"></span>
                 <span @click="incrementViews" data-toggle="modal" :data-target="'#viewModal' + keepProp.id" class="image-button view-button fa fa-vimeo"></span>
             </div>
             <div class="keep-caption-div">
@@ -77,7 +77,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <span @click="submitKeepToVault" type="button" class="btn btn-primary">Keep!</span>
+                        <span @click="submitKeepToVault(); incrementKeeps();" type="button" class="btn btn-primary">Keep!</span>
                     </div>
                 </div>
                 <!-- /.modal-content -->
@@ -135,7 +135,7 @@
         props: ["keepProp"],
         data() {
             return {
-                currentLocalKeep: null
+
             }
         },
         mounted() {
@@ -145,23 +145,20 @@
             incrementViews() {
                 this.$store.dispatch('incrementViews', { keep: this.keepProp })
             },
+            incrementKeeps() {
+                this.$store.dispatch('incrementKeeps', { keep: this.keepProp })
+            },
             setCurrentVaultAndKeeps(vault) {
                 this.$store.dispatch('setCurrentVault', vault)
                 this.$store.dispatch('getKeepsInVault', vault.id)
             },
             submitKeepToVault() {
-                debugger
-                if (this.currentLocalKeep != null) {
-                    var vaultKeep = {
-                        vaultId: this.currentVault.id,
-                        keepId: this.currentLocalKeep.id,
-                        userId: this.currentUser.id
-                    }
-                    this.$store.dispatch('submitKeepToVault', { currentUser: this.currentUser, vaultKeep: vaultKeep, vaultId: this.currentVault.id })
+                var vaultKeep = {
+                    vaultId: this.currentVault.id,
+                    keepId: this.keepProp.id,
+                    userId: this.currentUser.id
                 }
-            },
-            setCurrentLocalKeep(keep) {
-                this.currentLocalKeep = keep
+                this.$store.dispatch('submitKeepToVault', { currentUser: this.currentUser, vaultKeep: vaultKeep, vaultId: this.currentVault.id })
             }
         },
         computed: {

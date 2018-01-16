@@ -313,6 +313,29 @@ var store = new Vuex.Store({
                     commit('handleError', err)
                 })
         },
+        incrementKeeps({ commit, dispatch }, payload) {
+            payload.keep.keeps++
+            api.put(`keeps/${payload.keep.id}/keeps`, payload.keep)
+                .then(res => {
+                    if (res) {
+                        commit('setMessage', `Keep: ${payload.keep.name} updated successfully`)
+                        return res
+                    } else {
+                        commit('setMessage', `Keep: ${payload.keep.name} was not updated successfully`)
+                        return res
+                    }
+                })
+                .catch(err => {
+                    commit('handleError', err)
+                })
+                .then(res => {
+                    dispatch('getKeeps')
+                    dispatch('getUserKeeps', payload.currentUser.id)
+                })
+                .catch(err => {
+                    commit('handleError', err)
+                })
+        },
         removeKeep({ commit, dispatch }, payload) {
             if (payload.currentUser.id == payload.keep.userId) {
                 api.delete(`keeps/${payload.keep.id}`)
