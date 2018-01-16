@@ -7,6 +7,8 @@
       <p>Current User: {{currentUser}}</p>
       <p>User Keeps: {{userKeeps}}</p>
       <p>User Vaults: {{userVaults}}</p>
+      <p>Current Vault: {{currentVault}}</p>
+      <p>Current Vaults Keeps: {{currentVaultKeeps}}</p>
     </div>
     <LogoBar></LogoBar>
     <router-view/>
@@ -45,6 +47,12 @@
       },
       userVaults() {
         return this.$store.state.userVaults
+      },
+      currentVault() {
+        return this.$store.state.currentVault
+      },
+      currentVaultKeeps() {
+        return this.$store.state.currentVaultKeeps
       }
     }
   }

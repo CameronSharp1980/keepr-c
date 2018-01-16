@@ -67,7 +67,7 @@
 
         <!-- VAULT MANAGEMENT MODAL -->
         <div class="modal fade" id="vaultManageModal" tabindex="-1" role="dialog" aria-labelledby="vaultManageModalLabel">
-            <div class="modal-dialog" role="document">
+            <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -77,22 +77,42 @@
                     </div>
                     <div class="modal-body max-height-80vh">
                         <div class="row">
-                            <div class="col-sm-12" v-for="vault in userVaults">
+                            <div class="col-sm-6">
                                 <div class="row">
-                                    <div class="col-sm-10 height-100 text-center manager-thumb-div">
-                                        <span class="manager-title">{{vault.name}}</span>
-                                    </div>
-                                    <!-- <div class="col-sm-7 height-100 text-center manager-title-div">
-                                        <span class="manager-title">{{vault.description}}</span>
-                                    </div> -->
-                                    <div class="col-sm-2 height-100 text-center manager-controls-div">
-                                        <i @click="removeVault(vault)" class="fa fa-ban manager-controls"></i>
-                                        <!-- <i class="fa fa-arrow-circle-o-up manager-controls"></i> -->
-                                    </div>
+                                    <div class="col-sm-12" v-for="vault in userVaults">
+                                        <div class="row">
+                                            <div @click="setCurrentVaultAndKeeps(vault)" class="col-sm-10 height-100 text-center manager-thumb-div">
+                                                <span class="manager-title">{{vault.name}}</span>
+                                            </div>
+                                            <!-- <div class="col-sm-7 height-100 text-center manager-title-div">
+                                                <span class="manager-title">{{vault.description}}</span>
+                                            </div> -->
+                                            <div class="col-sm-2 height-100 text-center manager-controls-div">
+                                                <i @click="removeVault(vault)" class="fa fa-ban manager-controls"></i>
+                                                <!-- <i class="fa fa-arrow-circle-o-up manager-controls"></i> -->
+                                            </div>
 
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-
+                            <div class="col-sm-6">
+                                <div class="row">
+                                    <div class="col-sm-12" v-for="(keep, i) in currentVaultKeeps" v-if="currentVaultKeeps.length > 0">
+                                        <div class="row">
+                                            <div class="col-sm-2 vault-keep-entry">
+                                                <img class=" vault-keep-entry-thumb" :src="keep.imageUrl" :alt="keep.name">
+                                            </div>
+                                            <div class="vault-keep-entry grey col-sm-10" v-if="i % 2 == 0">
+                                                <span>{{keep.name}}</span>
+                                            </div>
+                                            <div class="vault-keep-entry col-sm-10" v-else>
+                                                <span>{{keep.name}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <!-- <div class="modal-footer">
@@ -230,6 +250,10 @@
             },
             removeVault(vault) {
                 this.$store.dispatch('removeVault', { currentUser: this.currentUser, vault: vault })
+            },
+            setCurrentVaultAndKeeps(vault) {
+                this.$store.dispatch('setCurrentVault', vault)
+                this.$store.dispatch('getKeepsInVault', vault.id)
             }
         },
         computed: {
@@ -241,6 +265,12 @@
             },
             userVaults() {
                 return this.$store.state.userVaults
+            },
+            currentVault() {
+                return this.$store.state.currentVault
+            },
+            currentVaultKeeps() {
+                return this.$store.state.currentVaultKeeps
             }
         },
         components: {
@@ -355,5 +385,20 @@
     .max-height-80vh {
         max-height: 80vh;
         overflow: auto;
+    }
+
+    .vault-keep-entry {
+        font-size: 1.25em;
+        height: 50px;
+        line-height: 50px;
+    }
+
+    .vault-keep-entry-thumb {
+        height: 100%;
+    }
+
+    .grey {
+        background-color: #F5F5F4;
+        color: #000000;
     }
 </style>

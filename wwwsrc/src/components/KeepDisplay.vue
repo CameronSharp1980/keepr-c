@@ -1,7 +1,7 @@
 <template>
     <div class="keep-display">
         <div class="row">
-            <div class="keeps-div col-sm-3" v-for="keep in keeps">
+            <div class="keeps-div col-sm-3" v-for="keep in keeps" v-if="keep.public">
                 <div class="single-keep-div text-center thumbnail">
                     <img class="full-width keep-img" :src="keep.imageUrl" alt="Image Url">
                     <div class="keep-caption-div">

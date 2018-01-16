@@ -101,6 +101,8 @@ var store = new Vuex.Store({
                     commit('setCurrentUser', {})
                     commit('setUserVaults', {})
                     commit('setUserKeeps', {})
+                    commit('setCurrentVault', {})
+                    commit('setCurrentVaultKeeps', [])
                     router.push({ name: "Keepr" })
                 })
                 .catch(err => {
@@ -132,7 +134,7 @@ var store = new Vuex.Store({
         //#region Vault Functions
 
         setCurrentVault({ commit, dispatch }, vault) {
-            commit('setCurrentVaultKeeps', vault)
+            commit('setCurrentVault', vault)
         },
         getUserVaults({ commit, dispatch }, currentUserId) {
             api(`vaults/${currentUserId}`)
@@ -322,7 +324,7 @@ var store = new Vuex.Store({
         getKeepsInVault({ commit, dispatch }, vaultId) {
             api(`vaultkeeps/${vaultId}`)
                 .then(res => {
-                    commit('setCurrentVaultKeeps')
+                    commit('setCurrentVaultKeeps', res.data)
                 })
                 .catch(err => {
                     commit('handleError', err)
