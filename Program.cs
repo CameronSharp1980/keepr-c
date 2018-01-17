@@ -38,12 +38,8 @@ namespace keepr_c
 //Add a means to make private posts public, but once public they CANNOT be deleted!
 //Go through your app and add extra creation / deletion buttons as appropriate
 //Add ability to remove keep from vault in vault manager
-//MAKE SURE YOUR PROGRAM WILL BUILD! (NPM RUN BUILD)
-//Track down "err is not defined" that shows up intermittently
 
-//MOCK DATA:
-//Mimick the mock for laughs (usernames, keeps etc.)
-//Sweet game art
+//Track down "err is not defined" that shows up intermittently
 
 //EXTRA:
 //Tags on keeps and a search function
