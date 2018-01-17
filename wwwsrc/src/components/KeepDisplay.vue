@@ -1,27 +1,36 @@
 <template>
     <div class="keep-display">
         <div class="row">
-            <div class="keeps-div col-sm-3" v-for="keep in keeps" v-if="keep.public">
-                <!-- <div class="single-keep-div text-center thumbnail">
-                    <img class="full-width keep-img" :src="keep.imageUrl" alt="Image Url">
-                    <div class="keep-caption-div">
-                        <span>
-                            <i class="fa fa-xing"></i>:{{keep.keeps}}
-                        </span>
-                        <span>
-                            <i class="fa fa-share"></i>:{{keep.shares}}
-                        </span>
-                        <span>
-                            <i class="fa fa-eye"></i>:{{keep.views}}
-                        </span>
+            <div v-for="(keep, i) in keeps" v-if="keep.public">
+                <!-- <div class="keeps-div col-sm-3" v-if="i == 0">
+                    1
+                    <Keep :keepProp="keep"></Keep>
+                </div>
+                <div v-else-if="i % 4 == 0">
+                    <div class="row">
+                        2
+                        <div class="keeps-div col-sm-3">
+                            <Keep :keepProp="keep"></Keep>
+                        </div>
                     </div>
-                    <div class="keep-caption-div keep-title">
-                        {{keep.name}}
-                    </div>
+                </div>
+                <div class="keeps-div col-sm-3" v-else>
+                    3
+                    <Keep :keepProp="keep"></Keep>
                 </div> -->
-                <Keep :keepProp="keep"></Keep>
+
+                <div class="keeps-div col-xs-3">
+                    <Keep :keepProp="keep"></Keep>
+                </div>
             </div>
+
+            <!-- <div class="keeps-div col-xs-3">
+                    <Keep :keepProp="keep"></Keep>
+                </div>
+                <div class="clearfix visible-xs-12" v-if="i % 4 === 0 && i != 0"></div>
+            </div> -->
         </div>
+    </div>
     </div>
 </template>
 

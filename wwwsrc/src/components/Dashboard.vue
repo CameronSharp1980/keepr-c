@@ -12,10 +12,10 @@
                     <div class="panel-heading dash-heading">
                         <span>My Dashboard</span>
                         <div class="dash-buttons pull-right">
-                            <span @click="makeVaultKeep('keep')" class="active-button dash-button fa fa-xing" v-if="makingKeep"></span>
-                            <span @click="makeVaultKeep('keep')" class="dash-button fa fa-xing" v-else></span>
-                            <span @click="makeVaultKeep('vault')" class="active-button dash-button fa fa-vimeo" v-if="makingVault"></span>
-                            <span @click="makeVaultKeep('vault')" class="dash-button fa fa-vimeo" v-else></span>
+                            <span @click="makeVaultKeep('keep')" class="hand-cursor active-button dash-button fa fa-xing" v-if="makingKeep"></span>
+                            <span @click="makeVaultKeep('keep')" class="hand-cursor dash-button fa fa-xing" v-else></span>
+                            <span @click="makeVaultKeep('vault')" class="hand-cursor active-button dash-button fa fa-vimeo" v-if="makingVault"></span>
+                            <span @click="makeVaultKeep('vault')" class="hand-cursor dash-button fa fa-vimeo" v-else></span>
                         </div>
                     </div>
                     <div class="panel-body">
@@ -23,13 +23,15 @@
                             <h3>Create New Keep</h3>
                             <form class="form" @submit.prevent="submitKeep">
                                 <div class="form-group">
-                                    <input class="form-control" type="text" name="name" placeholder="Name" v-model='makeKeep.name' required>
+                                    <input class="form-control" type="text" name="name" placeholder="Name" v-model='makeKeep.name' maxlength="20" required>
                                 </div>
                                 <div class="form-group">
-                                    <input class="form-control" type="" name="description" placeholder="Description" v-model='makeKeep.description' required>
+                                    <input class="form-control" type="" name="description" placeholder="Description" v-model='makeKeep.description' maxlength="255"
+                                        required>
                                 </div>
                                 <div class="form-group">
-                                    <input class="form-control" type="url" name="imageurl" placeholder="Image URL" v-model='makeKeep.imageUrl' required>
+                                    <input class="form-control" type="url" name="imageurl" placeholder="Image URL" v-model='makeKeep.imageUrl' maxlength="255"
+                                        required>
                                 </div>
                                 <div class="form-group">
                                     <label for="public">Mark as Public?</label>
@@ -46,10 +48,11 @@
                             <h3>Create New Vault</h3>
                             <form class="form" @submit.prevent="submitVault">
                                 <div class="form-group">
-                                    <input class="form-control" type="text" name="name" placeholder="Name" v-model='makeVault.name' required>
+                                    <input class="form-control" type="text" name="name" placeholder="Name" v-model='makeVault.name' maxlength="20" required>
                                 </div>
                                 <div class="form-group">
-                                    <input class="form-control" type="" name="description" placeholder="Description" v-model='makeVault.description' required>
+                                    <input class="form-control" type="" name="description" placeholder="Description" v-model='makeVault.description' maxlength="255"
+                                        required>
                                 </div>
                                 <div class="form-group">
                                     <button type="submit" class="pink-button wide-button pull-left">Create Vault</button>
@@ -87,7 +90,7 @@
                                             <!-- <div class="col-sm-7 height-100 text-center manager-title-div">
                                                 <span class="manager-title">{{vault.description}}</span>
                                             </div> -->
-                                            <div class="col-sm-2 height-100 text-center manager-controls-div">
+                                            <div class="hand-cursor col-sm-2 height-100 text-center manager-controls-div">
                                                 <i @click="removeVault(vault)" class="fa fa-ban manager-controls"></i>
                                                 <!-- <i class="fa fa-arrow-circle-o-up manager-controls"></i> -->
                                             </div>
@@ -148,7 +151,7 @@
                                     <div class="col-sm-7 height-100 text-center manager-title-div">
                                         <span class="manager-title">{{keep.name}}</span>
                                     </div>
-                                    <div class="col-sm-2 height-100 text-center manager-controls-div">
+                                    <div class="hand-cursor col-sm-2 height-100 text-center manager-controls-div">
                                         <i @click="removeKeep(keep)" class="fa fa-ban manager-controls"></i>
                                         <!-- <i class="fa fa-arrow-circle-o-up manager-controls"></i> -->
                                     </div>

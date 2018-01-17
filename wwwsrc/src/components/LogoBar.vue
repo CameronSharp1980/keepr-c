@@ -5,16 +5,20 @@
             <img class="logo" src="../assets/keepr-logo.png" alt="Keepr Logo">
         </div>
 
-        <div class="col-sm-3 col-sm-offset-6">
-            <span class="user-salutation pull-right" v-if="currentUser.username">Hi, {{currentUser.firstName}}</span>
+        <div class="col-sm-3">
+            <span class="user-salutation" v-if="currentUser.username">Hi, {{currentUser.firstName}}</span>
         </div>
 
-        <div class="col-sm-1" v-if="!currentUser.username">
+        <div class="col-sm-1 col-sm-offset-6" v-if="!currentUser.username">
             <button @click="changeLoginFormState(true)" class="black-button pull-right" type="button" data-toggle="modal" data-target="#signInModal">Sign&nbspin</button>
         </div>
 
         <div class="col-sm-1" v-if="!currentUser.username">
             <button @click="changeLoginFormState(false)" class="pink-button pull-right" type="button" data-toggle="modal" data-target="#signInModal">Register</button>
+        </div>
+
+        <div class="col-sm-1 col-sm-offset-5" v-if="currentUser.username">
+            <router-link :to="{ path: '/' }" class="pink-button pull-right">View&nbspKeeps</router-link>
         </div>
 
         <div class="col-sm-1" v-if="currentUser.username">
@@ -55,11 +59,12 @@
                                             <form class="form" @submit.prevent="submitLogin">
                                                 <div class="form-group">
                                                     <!-- <label for="email">Email: </label> -->
-                                                    <input class="form-control" type="email" name="email" placeholder="E-mail" v-model='login.email' required>
+                                                    <input class="form-control" type="email" name="email" placeholder="E-mail" v-model='login.email' maxlength="255" required>
                                                 </div>
                                                 <div class="form-group">
                                                     <!-- <label for="password">Password: </label> -->
-                                                    <input class="form-control" type="password" name="password" placeholder="Password" v-model='login.password' required>
+                                                    <input class="form-control" type="password" name="password" placeholder="Password" v-model='login.password' maxlength="255"
+                                                        required>
                                                 </div>
                                                 <div class="form-group">
                                                     <button type="submit" class="pink-button large-button">Login</button>
@@ -86,27 +91,32 @@
                                             <form class="form" @submit.prevent="submitRegister">
                                                 <div class="form-group">
                                                     <!-- <label for="username">Username: </label> -->
-                                                    <input class="form-control" type="text" name="username" placeholder="Username" v-model='register.username' required>
+                                                    <input class="form-control" type="text" name="username" placeholder="Username" v-model='register.username' maxlength="20"
+                                                        required>
                                                 </div>
                                                 <div class="form-group">
                                                     <!-- <label for="email">E-mail: </label> -->
-                                                    <input class="form-control" type="email" name="email" placeholder="E-mail" v-model='register.email' required>
+                                                    <input class="form-control" type="email" name="email" placeholder="E-mail" v-model='register.email' maxlength="255" required>
                                                 </div>
                                                 <div class="form-group">
                                                     <!-- <label for="password">Password: </label> -->
-                                                    <input class="form-control" type="password" name="password" placeholder="Password" v-model='register.password' required>
+                                                    <input class="form-control" type="password" name="password" placeholder="Password" v-model='register.password' maxlength="255"
+                                                        required>
                                                 </div>
                                                 <div class="form-group">
                                                     <!-- <label for="avatarUrl">Avatar URL: </label> -->
-                                                    <input class="form-control" type="text" name="avatarUrl" placeholder="Avatar URL" v-model='register.avatarUrl' required>
+                                                    <input class="form-control" type="text" name="avatarUrl" placeholder="Avatar URL" v-model='register.avatarUrl' maxlength="255"
+                                                        required>
                                                 </div>
                                                 <div class="form-group">
                                                     <!-- <label for="firstName">First Name: </label> -->
-                                                    <input class="form-control" type="text" name="firstName" placeholder="First Name" v-model='register.firstName' required>
+                                                    <input class="form-control" type="text" name="firstName" placeholder="First Name" v-model='register.firstName' maxlength="255"
+                                                        required>
                                                 </div>
                                                 <div class="form-group">
                                                     <!-- <label for="lastName">Last Name: </label> -->
-                                                    <input class="form-control" type="text" name="lastName" placeholder="Last Name" v-model='register.lastName' required>
+                                                    <input class="form-control" type="text" name="lastName" placeholder="Last Name" v-model='register.lastName' maxlength="255"
+                                                        required>
                                                 </div>
                                                 <div class="form-group">
                                                     <button type="submit" class="pink-button large-button">Register</button>
@@ -166,6 +176,7 @@
                     email: '',
                     password: ''
                 }
+                $('#signInModal').modal('hide')
             },
             submitRegister() {
                 this.$store.dispatch('submitRegister', this.register)
@@ -177,6 +188,7 @@
                     firstName: '',
                     lastName: ''
                 }
+                $('#signInModal').modal('hide')
             },
             logout() {
                 this.$store.dispatch('logout')

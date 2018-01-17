@@ -25,6 +25,7 @@ namespace keepr_c.Controllers
         //     return db.GetAll();
         // }
 
+        [Authorize]
         [HttpGet("{userId}")]
         public IEnumerable<Vault> GetUserVaults(int userId)
         {

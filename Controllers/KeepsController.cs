@@ -73,6 +73,7 @@ namespace keepr_c.Controllers
         }
         // api.put(`keeps/${payload.keep.id}/views/${payload.keep.views}`)
 
+        [Authorize]
         [HttpPut("{keepId}/keeps")]
         public Keep IncrementKeeps([FromBody] Keep keep)
         {

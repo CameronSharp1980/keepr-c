@@ -62,4 +62,8 @@
   #app {
     min-height: 100vh;
   }
+
+  .hand-cursor:hover {
+    cursor: pointer;
+  }
 </style>

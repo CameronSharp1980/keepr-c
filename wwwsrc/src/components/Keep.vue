@@ -3,8 +3,11 @@
         <div class="single-keep-div text-center thumbnail">
             <div class="image-div">
                 <img class="full-width keep-img" :src="keepProp.imageUrl" alt="Image Url">
-                <span data-toggle="modal" :data-target="'#keep-modal' + keepProp.id" class="image-button keep-button fa fa-xing"></span>
-                <span @click="incrementViews" data-toggle="modal" :data-target="'#viewModal' + keepProp.id" class="image-button view-button fa fa-vimeo"></span>
+                <span data-toggle="modal" :data-target="'#keep-modal' + keepProp.id" class="hand-cursor image-button keep-button fa fa-xing" v-if="currentUser.username"></span>
+                <span data-toggle="modal" data-target="#pleaseLoginModal" class="hand-cursor image-button keep-button fa fa-xing" v-else></span>
+                <!-- WHEN YOU ADD SHARING, ADD ANOTHER BUTTON HERE TO ACCOUNT FOR USER LOGGED IN / OUT -->
+                <span data-toggle="modal" :data-target="'#share-modal' + keepProp.id" class="hand-cursor image-button share-button fa fa-share"></span>
+                <span @click="incrementViews" data-toggle="modal" :data-target="'#viewModal' + keepProp.id" class="hand-cursor image-button view-button fa fa-vimeo"></span>
             </div>
             <div class="keep-caption-div">
                 <span>
@@ -77,7 +80,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <span @click="submitKeepToVault(); incrementKeeps();" type="button" class="btn btn-primary">Keep!</span>
+                        <span @click="submitKeepToVault(); incrementKeeps();" type="button" class="hand-cursor btn btn-primary">Keep!</span>
                     </div>
                 </div>
                 <!-- /.modal-content -->
@@ -122,7 +125,67 @@
             <!-- /.modal-dialog -->
         </div>
         <!-- /.modal -->
-        <!-- KEEP MODAL END -->
+        <!-- VIEW MODAL END -->
+
+        <!-- PLEASE LOGIN MODAL -->
+        <div class="modal fade" id="pleaseLoginModal" tabindex="-1" role="dialog" aria-labelledby="pleaseLoginModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title">Login Required</h4>
+                    </div>
+                    <div class="modal-body max-height-80vh">
+                        <div class="row">
+                            <div class="col-sm-12 view-modal-img-div modal-div text-center">
+                                <p>You must login to save Keeps</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+        </div> -->
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+        <!-- PLEASE LOGIN MODAL END -->
+
+
+        <!-- SHARE MODAL -->
+        <div class="modal fade" :id="'share-modal' + keepProp.id" tabindex="-1" role="dialog" aria-labelledby="shareModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title">Sharing Coming Soon!</h4>
+                    </div>
+                    <div class="modal-body max-height-80vh">
+                        <div class="row">
+                            <div class="col-sm-12 view-modal-img-div modal-div text-center">
+                                <p>Check back later for this exciting new feature!</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+        </div> -->
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+        <!-- SHARE MODAL END -->
+
 
 
 
@@ -223,6 +286,15 @@
         color: white;
         top: 2%;
         left: 2%;
+    }
+
+    .share-button {
+        font-size: 1.5em;
+        padding: 10px;
+        background-color: #000000;
+        color: white;
+        top: 2%;
+        left: 43%;
     }
 
     .keep-img {

@@ -32,6 +32,7 @@ namespace keepr_c.Controllers
         //     return db.GetById(id);
         // }
 
+        [Authorize]
         [HttpGet("{vaultid}")]
         public IEnumerable<VaultKeepReturnModel> GetKeepsInVault(int vaultid)
         {
