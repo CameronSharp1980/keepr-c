@@ -1,15 +1,15 @@
 <template>
   <div id="app" class="container">
-    <Error></Error>
-    <Message></Message>
-    <div class="temp-div">
+    <!-- <Error></Error> -->
+    <!-- <Message></Message> -->
+    <!-- <div class="temp-div">
       <p>Welcome {{currentUser.username}}</p>
       <p>Current User: {{currentUser}}</p>
       <p>User Keeps: {{userKeeps}}</p>
       <p>User Vaults: {{userVaults}}</p>
       <p>Current Vault: {{currentVault}}</p>
       <p>Current Vaults Keeps: {{currentVaultKeeps}}</p>
-    </div>
+    </div> -->
     <LogoBar></LogoBar>
     <router-view/>
 
