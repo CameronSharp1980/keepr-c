@@ -1,13 +1,13 @@
 <template>
     <div class="dashboard">
         <div class="row">
-            <div class="col-sm-12">
+            <div class="col-xs-12">
                 <div class="dash-message-bar">
                     <span>Hello {{currentUser.firstName}} {{currentUser.lastName}}, Here you may post your own keeps, manage your
                         vaults, and be awesome!</span>
                 </div>
             </div>
-            <div class="col-sm-12">
+            <div class="col-xs-12">
                 <div class="panel panel-default">
                     <div class="panel-heading dash-heading">
                         <span>My Dashboard</span>
@@ -80,17 +80,17 @@
                     </div>
                     <div class="modal-body max-height-80vh">
                         <div class="row">
-                            <div class="col-sm-6">
+                            <div class="col-xs-6">
                                 <div class="row">
-                                    <div class="col-sm-12" v-for="vault in userVaults">
+                                    <div class="col-xs-12" v-for="vault in userVaults">
                                         <div class="row">
-                                            <div @click="setCurrentVaultAndKeeps(vault)" class="col-sm-10 height-100 text-center manager-thumb-div">
+                                            <div @click="setCurrentVaultAndKeeps(vault)" class="col-xs-10 height-100 text-center manager-thumb-div">
                                                 <span class="manager-title">{{vault.name}}</span>
                                             </div>
-                                            <!-- <div class="col-sm-7 height-100 text-center manager-title-div">
+                                            <!-- <div class="col-xs-7 height-100 text-center manager-title-div">
                                                 <span class="manager-title">{{vault.description}}</span>
                                             </div> -->
-                                            <div class="hand-cursor col-sm-2 height-100 text-center manager-controls-div">
+                                            <div class="hand-cursor col-xs-2 height-100 text-center manager-controls-div">
                                                 <i @click="removeVault(vault)" class="fa fa-ban manager-controls"></i>
                                                 <!-- <i class="fa fa-arrow-circle-o-up manager-controls"></i> -->
                                             </div>
@@ -99,18 +99,24 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-xs-6">
                                 <div class="row">
-                                    <div class="col-sm-12" v-for="(keep, i) in currentVaultKeeps" v-if="currentVaultKeeps.length > 0">
+                                    <div class="col-xs-12" v-for="(keep, i) in currentVaultKeeps" v-if="currentVaultKeeps.length > 0">
                                         <div class="row">
-                                            <div class="col-sm-2 vault-keep-entry">
+                                            <div class="col-xs-2 vault-keep-entry">
                                                 <img class=" vault-keep-entry-thumb" :src="keep.imageUrl" :alt="keep.name">
                                             </div>
-                                            <div class="vault-keep-entry grey col-sm-10" v-if="i % 2 == 0">
+                                            <div class="vault-keep-entry grey col-xs-8" v-if="i % 2 == 0">
                                                 <span>{{keep.name}}</span>
                                             </div>
-                                            <div class="vault-keep-entry col-sm-10" v-else>
+                                            <div class="vault-keep-entry col-xs-8" v-else>
                                                 <span>{{keep.name}}</span>
+                                            </div>
+                                            <div class="hand-cursor text-center vault-keep-entry grey col-xs-2" v-if="i % 2 == 0">
+                                                <i @click="removeKeepFromVault(keep)" class="fa fa-ban"></i>
+                                            </div>
+                                            <div class="hand-cursor text-center vault-keep-entry col-xs-2" v-else>
+                                                <i @click="removeKeepFromVault(keep)" class="fa fa-ban"></i>
                                             </div>
                                         </div>
                                     </div>
@@ -142,36 +148,44 @@
                         <h4 class="modal-title">Keep Manager</h4>
                     </div>
                     <div class="modal-body max-height-80vh">
-                        <div class="row">
-                            <div class="col-sm-12" v-for="keep in userKeeps">
-                                <div class="row">
-                                    <div class="col-sm-3 height-100 text-center manager-thumb-div">
-                                        <img class="manager-thumb" :src="keep.imageUrl" :alt="keep.name">
-                                    </div>
-                                    <div class="col-sm-7 height-100 text-center manager-title-div">
-                                        <span class="manager-title">{{keep.name}}</span>
-                                    </div>
-                                    <div class="hand-cursor col-sm-2 height-100 text-center manager-controls-div">
-                                        <i @click="removeKeep(keep)" class="fa fa-ban manager-controls"></i>
-                                        <!-- <i class="fa fa-arrow-circle-o-up manager-controls"></i> -->
-                                    </div>
-
-                                </div>
-                            </div>
-
+                        <div class="row"></div>
+                        <div class="col-xs-7 col-xs-offset-3 text-center">
+                            <h5 class="column-title">Keeps:</h5>
                         </div>
+                        <div class="col-xs-12" v-for="keep in userKeeps">
+                            <div class="row">
+                                <div class="col-xs-3 height-100 text-center manager-thumb-div">
+                                    <img class="manager-thumb" :src="keep.imageUrl" :alt="keep.name">
+                                </div>
+                                <div class="col-xs-7 height-100 text-center manager-title-div">
+                                    <span class="manager-title">{{keep.name}}</span>
+                                </div>
+                                <div class="hand-cursor col-xs-1 height-100 text-center manager-controls-div">
+                                    <!-- <i @click="removeKeep(keep)" class="fa fa-ban manager-controls"></i> -->
+                                    <i @click="togglePublic(keep)" class="fa fa-lock manager-controls" v-if="!keep.public"></i>
+                                    <i @click="togglePublic(keep)" class="fa fa-unlock manager-controls" v-else></i>
+                                </div>
+                                <div class="hand-cursor col-xs-1 height-100 text-center manager-controls-div">
+                                    <i @click="removeKeep(keep)" class="fa fa-ban manager-controls"></i>
+                                    <!-- <i class="fa fa-arrow-circle-o-up manager-controls"></i> -->
+                                </div>
+
+                            </div>
+                        </div>
+
                     </div>
-                    <!-- <div class="modal-footer">
+                </div>
+                <!-- <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                             <button type="button" class="btn btn-primary">Save changes</button>
                         </div> -->
-                </div>
-                <!-- /.modal-content -->
             </div>
-            <!-- /.modal-dialog -->
+            <!-- /.modal-content -->
         </div>
-        <!-- /.modal -->
-        <!-- KEEP MANAGEMENT MODAL END -->
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+    <!-- KEEP MANAGEMENT MODAL END -->
 
 
 
@@ -255,9 +269,15 @@
             removeVault(vault) {
                 this.$store.dispatch('removeVault', { currentUser: this.currentUser, vault: vault })
             },
+            removeKeepFromVault(keep) {
+                this.$store.dispatch('removeKeepFromVault', { currentUser: this.currentUser, currentVault: this.currentVault, keep: keep })
+            },
             setCurrentVaultAndKeeps(vault) {
                 this.$store.dispatch('setCurrentVault', vault)
                 this.$store.dispatch('getKeepsInVault', vault.id)
+            },
+            togglePublic(keep) {
+                this.$store.dispatch('togglePublic', { currentUser: this.currentUser, keep: keep })
             }
         },
         computed: {

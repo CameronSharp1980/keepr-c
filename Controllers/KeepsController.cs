@@ -84,6 +84,17 @@ namespace keepr_c.Controllers
             return null;
         }
 
+        [Authorize]
+        [HttpPut("{keepId}/public")]
+        public Keep TogglePublic([FromBody] Keep keep)
+        {
+            if (ModelState.IsValid)
+            {
+                return db.TogglePublic(keep);
+            }
+            return null;
+        }
+
         // DELETE api/values/5
         [Authorize]
         [HttpDelete("{keepId}")]

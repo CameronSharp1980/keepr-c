@@ -34,10 +34,11 @@ namespace keepr_c
 //***Make sure all three buttons are implemented, even if you cannot yet share!
 //***Add cursor change to all links that need it 
 //***Make sure all modals with forms close on submit - $('#post-new-vault-modal').modal('hide')
+//***Add a means to make private posts public.
+//***Add ability to remove keep from vault in vault manager
+
 //Add rows via modulo to ensure that every x keep is on a new row (To prevent them catching on each other)
-//Add a means to make private posts public, but once public they CANNOT be deleted!
 //Go through your app and add extra creation / deletion buttons as appropriate
-//Add ability to remove keep from vault in vault manager
 
 //Track down "err is not defined" that shows up intermittently
 

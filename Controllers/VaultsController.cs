@@ -70,5 +70,12 @@ namespace keepr_c.Controllers
         {
             return db.FindByIdAndRemove(vaultId);
         }
+
+        [Authorize]
+        [HttpDelete("{vaultId}/keeps/{keepId}")]
+        public string RemoveKeepFromVault(int vaultId, int keepId)
+        {
+            return db.RemoveKeepFromVault(vaultId, keepId);
+        }
     }
 }

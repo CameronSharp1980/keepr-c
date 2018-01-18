@@ -68,5 +68,14 @@ namespace keepr_c.Repositories
             ", vaultId);
             return success > 0 ? "success" : "umm that didnt work";
         }
+
+        public string RemoveKeepFromVault(int vaultId, int keepId)
+        {
+            var success = _db.Execute($@"
+                DELETE FROM vaultkeeps 
+                WHERE vaultId = {vaultId} && keepId = {keepId}
+            ");
+            return success > 0 ? "success" : "umm that didnt work";
+        }
     }
 }

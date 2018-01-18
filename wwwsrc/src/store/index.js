@@ -217,6 +217,32 @@ var store = new Vuex.Store({
                 commit('handleError', { message: 'You are not the owner of that vault, and therefore not authorized to remove it.' })
             }
         },
+        removeKeepFromVault({ commit, dispatch }, payload) {
+            if (payload.currentUser.id == payload.currentVault.userId) {
+                api.delete(`vaults/${payload.currentVault.id}/keeps/${payload.keep.id}`)
+                    .then(res => {
+                        if (res) {
+                            commit('setMessage', `Keep: ${payload.keep.name} removed successfully from Vault: ${payload.currentVault.name}`)
+                            return res
+                        } else {
+                            commit('setMessage', `Keep: ${payload.keep.name} was not removed successfully from Vault: ${payload.currentVault.name}`)
+                            return res
+                        }
+                    })
+                    .catch(err => {
+                        commit('handleError', err)
+                    })
+                    .then(res => {
+                        dispatch('getUserVaults', payload.currentUser.id)
+                        dispatch('getKeepsInVault', payload.currentVault.id)
+                    })
+                    .catch(err => {
+                        commit('handleError', err)
+                    })
+            } else {
+                commit('handleError', { message: 'You are not the owner of that vault, and therefore not authorized to remove it.' })
+            }
+        },
 
         //#endregion
 
@@ -336,6 +362,31 @@ var store = new Vuex.Store({
                     commit('handleError', err)
                 })
         },
+        togglePublic({ commit, dispatch }, payload) {
+            if (payload.currentUser.id == payload.keep.userId) {
+                payload.keep.public = !payload.keep.public
+                api.put(`keeps/${payload.keep.id}/public`, payload.keep)
+                    .then(res => {
+                        if (res) {
+                            commit('setMessage', `Keep: ${payload.keep.name} updated successfully`)
+                            return res
+                        } else {
+                            commit('setMessage', `Keep: ${payload.keep.name} was not updated successfully`)
+                            return res
+                        }
+                    })
+                    .catch(err => {
+                        commit('handleError', err)
+                    })
+                    .then(res => {
+                        dispatch('getKeeps')
+                        dispatch('getUserKeeps', payload.currentUser.id)
+                    })
+                    .catch(err => {
+                        commit('handleError', err)
+                    })
+            }
+        },
         removeKeep({ commit, dispatch }, payload) {
             if (payload.currentUser.id == payload.keep.userId) {
                 api.delete(`keeps/${payload.keep.id}`)
@@ -398,31 +449,32 @@ var store = new Vuex.Store({
                     commit('handleError', err)
                 })
         },
-        removeKeepFromVault({ commit, dispatch }, payload) {
-            if (payload.currentUser.id == payload.vaultKeep.userId) {
-                api.delete(`vaultkeeps/${payload.vaultKeep.id}`)
-                    .then(res => {
-                        if (res) {
-                            commit('setMessage', `VaultKeep removed successfully`)
-                            return res
-                        } else {
-                            commit('setMessage', `VaultKeep was not removed successfully`)
-                            return res
-                        }
-                    })
-                    .catch(err => {
-                        commit('handleError', err)
-                    })
-                    .then(res => {
-                        dispatch('getKeepsInVault', payload.vaultId)
-                    })
-                    .catch(err => {
-                        commit('handleError', err)
-                    })
-            } else {
-                commit('handleError', { message: 'You are not the owner of that VaultKeep, and therefore not authorized to remove it.' })
-            }
-        }
+        // PLACED THIS FUNCTION IN VAULTS SECTION FOR BETTER REST-FULL-NESS
+        // removeKeepFromVault({ commit, dispatch }, payload) {
+        //     if (payload.currentUser.id == payload.vaultKeep.userId) {
+        //         api.delete(`vaultkeeps/${payload.vaultKeep.id}`)
+        //             .then(res => {
+        //                 if (res) {
+        //                     commit('setMessage', `VaultKeep removed successfully`)
+        //                     return res
+        //                 } else {
+        //                     commit('setMessage', `VaultKeep was not removed successfully`)
+        //                     return res
+        //                 }
+        //             })
+        //             .catch(err => {
+        //                 commit('handleError', err)
+        //             })
+        //             .then(res => {
+        //                 dispatch('getKeepsInVault', payload.vaultId)
+        //             })
+        //             .catch(err => {
+        //                 commit('handleError', err)
+        //             })
+        //     } else {
+        //         commit('handleError', { message: 'You are not the owner of that VaultKeep, and therefore not authorized to remove it.' })
+        //     }
+        // }
 
         //#endregion
 
